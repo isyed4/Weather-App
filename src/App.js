@@ -8,6 +8,7 @@ const [limit, setLimit] = useState("")
 const [longitude, setLongitude] = useState("")
 const [latitude, setLatitude] = useState("")
 const [coordinates, setCoordinates] = useState([])
+const [weather, setWeather] = useState([])
 
 const apiKey = "4d960f6c1e1c4f1c9cfd564d463b35a1"
 
@@ -35,14 +36,35 @@ const handleLocationSubmit = (event) => {
   console.log(coordinates);
 }
 
+const handleWeatherSubmit = (event) => {
+  event.preventDefault()
+
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`)
+  .then((response) => response.json())
+  .then((data) => setWeather(data.weather))
+
+  setLatitude("")
+  setLongitude("")
+}
+
 const cityCoords = coordinates.map((item) => {
   return(
     <ul>
-      <li>{item.name}</li>
-      <li>Latitude{item.lat}</li>
-      <li>Longitude{item.lon}</li>
-      <li>Country{item.country}</li>
-      <li>State{item.state}</li>
+      <li>City - {item.name}</li>
+      <li>Latitude - {item.lat}</li>
+      <li>Longitude - {item.lon}</li>
+      <li>Country - {item.country}</li>
+      <li>State - {item.state}</li>
+    </ul>
+  )
+})
+
+const displayWeather = weather.map((item) => {
+  return(
+    <ul>
+      <li>{item.main}</li>
+      <li>{item.description}</li>
+      {/* <li>{item.main.temp}</li> */}
     </ul>
   )
 })
@@ -59,13 +81,13 @@ const cityCoords = coordinates.map((item) => {
       </form>
       <div>{cityCoords}</div>
         <br />
-        <form>
+        <form onSubmit={handleWeatherSubmit}>
           <label>Enter Longitutde and Latitude Values for Weather</label>
           <input type="text" onChange = {handleLongChange} value={longitude} placeholder='longitude' />
           <input type="text" onChange = {handleLatChange} value={latitude} placeholder="latitude"/>
-          <input type="button" value="enter"/>
+          <input type="submit" value="enter"/>
         </form>
-        <p></p>
+        <div>{displayWeather}</div>
      
     </div>
   );
