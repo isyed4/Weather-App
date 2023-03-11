@@ -1,8 +1,11 @@
 import './App.css';
+import { useState } from 'react';
 
 function App() {
 
-
+const [findCoord, setFindCoord] = useState("")
+const [longitude, setLongitude] = useState("")
+const [latitude, setLatitude] = useState("")
 
 
 
@@ -16,8 +19,10 @@ function App() {
         <input type="text" placeholder=''/>
         <p>text</p>
         <br />
-        <label></label>
-        <input type="text" />
+        <label>Enter Longitutde and Latitude Values for Weather</label>
+        <input type="text" placeholder='longitude' />
+        <input type="text" placeholder="latitude"/>
+        <p></p>
       </form>
     </div>
   );
